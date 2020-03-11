@@ -36,6 +36,16 @@
         </el-form>
       </div>
     </el-card>
+        <el-card class="box-card">
+      <div slot="header" class="clearfix">
+        <span>共找到{{tot}}条符合条件的内容</span>
+      </div>
+      <el-table :data="articleList" style="width: 100%">
+        <el-table-column prop="title" label="标题"></el-table-column>
+        <el-table-column prop="status" label="状态"></el-table-column>
+        <el-table-column prop="pubdate" label="发布时间"></el-table-column>
+      </el-table>
+    </el-card>
   </div>
 </template>
 
@@ -109,4 +119,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+  /*给卡片区设置向下的外边距*/
+  .box-card{margin-bottom:15px;}
+</style>
