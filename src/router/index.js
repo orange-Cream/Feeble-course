@@ -13,13 +13,14 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  // 获取用户登录状态信息
-  const userinfo = window.sessionStorage.getItem('userinfo')
-  // 登录状态是大字符串, 非登录状态userinfo是null
-  if (!userinfo && to.path !== '/login') {
-    // 强制跳到登录页面
+  // 获得用户登录状态信息
+  const userInfo = window.sessionStorage.getItem('userInfo')
+  // 登录状态：userInfo是大字符串， 非登录状态，userInfo是null
+  if (!userInfo && to.path !== '/login') {
+    // 强制登录
     return next('/login')
   }
+
   // 放行
   next()
 })
