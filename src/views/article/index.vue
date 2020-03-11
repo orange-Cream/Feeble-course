@@ -44,6 +44,8 @@ export default {
   name: 'Article',
   data () {
     return {
+      articleList: [], // 文章列表
+      tot: 0, // 文章总条数
       channelList: [], // 真实频道数据进行展示
       timetotime: [], // 临时接收时间范围信息
       searchForm: {
@@ -67,9 +69,29 @@ export default {
     }
   },
   created () {
+    this.getArticleList()
     this.getChannelList()
   },
   methods: {
+  // 获得真实文章列表数据
+    getArticleList () {
+      const pro = this.$http({
+        url: '/mp/v1_0/articles',
+        method: 'get'
+      })
+      pro
+        .then(result => {
+          console.log(result)
+          // data接收文章数据
+          this.articleList = result.data.data.results
+          // 接收总条数
+          this.tot = result.data.data.total_count
+        })
+        .catch(err => {
+          return this.$message.error('获得文章失败：' + err)
+        })
+    },
+    // 获取频道列表
     getChannelList () {
       const pro = this.$http({
         url: '/mp/v1_0/channels',
