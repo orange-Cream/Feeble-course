@@ -25,7 +25,7 @@
         </el-form-item>
         <el-form-item>
           <!-- 登录按钮 -->
-          <el-button type="primary" style="width:100%;" @click="login()"
+          <el-button type="primary" style="width:100%;" @click="login()" :loading="isLoading" :disabled="isLoading"
             >登录</el-button
           >
         </el-form-item>
@@ -44,6 +44,8 @@ export default {
       value ? callback() : callback(new Error('请无条件遵守规矩'))
     }
     return {
+      capObj: null, // 极验对象
+      isLoading: false, // 按钮是否等待禁用
       // 表单校验规则
       loginFormRules: {
         mobile: [
@@ -71,6 +73,11 @@ export default {
         if (!valid) {
           return false
         }
+        // 判断是否已有极验对象
+        if (this.capObj) {
+          return this.capObj.verify()
+        }
+        this.isLoading = true
         // B. 人机交互验证
         const pro = this.$http({
           url: '/mp/v1_0/captchas/' + this.loginForm.mobile,
@@ -90,6 +97,8 @@ export default {
             captchaObj.onReady(() => {
               // 验证码ready之后才能调用verify方法显示验证码
               captchaObj.verify() // 显示验证码窗口
+              this.isLoading = false // 激活按钮设置
+              this.capObj = captchaObj // 接收极验对象
             }).onSuccess(() => {
             // 行为校验正确的处理
               // A. 账号真实校验
