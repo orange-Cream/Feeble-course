@@ -15,10 +15,10 @@ axios.interceptors.request.use(function (config) {
   // 发送请求的相关逻辑
   // config:对象  与 axios.defaults 相当
   // 借助config配置token
-  const userinfo = window.sessionStorage.getItem('userinfo')
+  const userInfo = window.sessionStorage.getItem('userInfo')
   // 判断token存在再做配置
-  if (userinfo) {
-    const token = JSON.parse(userinfo).token
+  if (userInfo) {
+    const token = JSON.parse(userInfo).token
     // 注意：token前边有 'Bearer ' 的信息前缀
     config.headers.Authorization = 'Bearer ' + token
   }
