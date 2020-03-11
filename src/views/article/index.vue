@@ -46,10 +46,24 @@ export default {
   name: 'Article',
   data () {
     return {
+      timetotime: [], // 临时接收时间范围信息
       searchForm: {
         status: '0', // 文章状态，0-草稿，1-待审核，2-审核通过，3-审核失败，4-已删除，不传为全部
         channel_id: '', // 频道id
-        timetotime: [] // 临时接收时间范围信息
+        begin_pubdate: '', // 文章发布开始时间
+        end_pubdate: '' // 文章发布结束时间
+      }
+    }
+  },
+  watch: {
+    timetotime: function (newV) {
+      if (newV) {
+        this.searchForm.begin_pubdate = newV[0]
+        this.searchForm.end_pubdate = newV[0]
+      } else {
+        // 清除时间信息
+        this.searchForm.begin_pubdate = ''
+        thie.searchForm.end_pubdate = ''
       }
     }
   }
