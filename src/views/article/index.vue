@@ -44,6 +44,10 @@
         <el-table-column prop="title" label="标题"></el-table-column>
         <el-table-column prop="status" label="状态"></el-table-column>
         <el-table-column prop="pubdate" label="发布时间"></el-table-column>
+         <el-table-column label="操作">
+          <el-button type="primary" size="mini" icon="el-icon-edit">修改</el-button>
+          <el-button type="danger" size="mini" icon="el-icon-delete">删除</el-button>
+        </el-table-column>
       </el-table>
     </el-card>
   </div>
