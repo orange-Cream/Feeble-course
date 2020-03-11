@@ -19,7 +19,7 @@
         </el-form-item>
         <el-form-item>
           <!-- 登录按钮 -->
-          <el-button type="primary" style="width:100%;">登录</el-button>
+          <el-button type="primary" style="width:100%;" @click="login()">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -37,6 +37,13 @@ export default {
         code: '', // 验证码
         xieyi: true // 协议复选框
       }
+    }
+  },
+  methods: {
+    // 登录系统
+    login () {
+      // 路由编程式导航
+      this.$router.push({ name: 'home' })
     }
   }
 }
