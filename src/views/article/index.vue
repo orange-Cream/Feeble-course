@@ -80,6 +80,15 @@
           >
         </el-table-column>
       </el-table>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="searchForm.page"
+        :page-sizes="[10, 20, 30, 40]"
+        :page-size="searchForm.per_page"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="tot"
+      ></el-pagination>
     </el-card>
   </div>
 </template>
@@ -94,6 +103,8 @@ export default {
       channelList: [], // 真实频道数据进行展示
       timetotime: [], // 临时接收时间范围信息
       searchForm: {
+        page: 1, // 当前数据记录页码
+        per_page: 10, // 分页数据记录条数
         status: '0', // 文章状态，0-草稿，1-待审核，2-审核通过，3-审核失败，4-已删除，不传为全部
         channel_id: '', // 频道id
         begin_pubdate: '', // 文章发布开始时间
@@ -118,8 +129,35 @@ export default {
     this.getChannelList()
   },
   methods: {
+    // 分页相关
+    // 每条条数变化的回调处理
+    handleSizeChange (val) {
+      // val: 变化后的每页条数
+      console.log(val)
+      // 更新每页条数
+      this.searchForm.per_page = val
+      // 根据变化后的每页条数重新获得文章列表
+      this.getArticleList()
+    },
+    // 页码变化的回调处理
+    handleCurrentChange (val) {
+      // val: 变化后的页码
+      // console.log(val)
+      // 更新页码
+      this.searchForm.page = val
+      // 根据变化后页码重新获得文章列表
+      this.getArticleList()
+    },
     // 获得真实文章列表数据
     getArticleList () {
+      // 把searchForm内部为空的成员都"过滤掉"
+      const searchData = {}
+      for (var i in this.searchForm) {
+        if (this.searchForm[0] || this.searchForm[i] === 0) {
+          // 成员值非空
+          searchData[i] = this.searchForm[i]
+        }
+      }
       const pro = this.$http({
         url: '/mp/v1_0/articles',
         method: 'get'
