@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import './gt'
 export default {
   name: 'Login',
   data () {
@@ -77,12 +78,30 @@ export default {
         })
         pro.then(result => {
           console.log(result)
+          const { data } = result.data
+          window.initGeetest({
+            // 以下配置参数来自服务端 SDK
+            gt: data.gt,
+            challenge: data.challenge,
+            offline: !data.success,
+            new_captcha: true,
+            product: 'bind'
+          }, captchaObj => {
+            captchaObj.onReady(() => {
+              // 验证码ready之后才能调用verify方法显示验证码
+              captchaObj.verify() // 显示验证码窗口
+            }).onSuccess(() => {
+            // 行为校验正确的处理
+              // A. 账号真实校验
+              this.loginAct()
+            }).onError(() => {
+              // 行为校验错误处理
+            })
+          })
         })
           .catch(err => {
             return this.$message.error('获取极验秘钥失败：' + err)
           })
-        // A. 账号真实校验
-        // this.loginAct()
       })
     },
     loginAct () {
