@@ -48,15 +48,16 @@ export default {
         mobile: [
           { required: true, message: '手机号码必填' },
           { pattern: /^1[35789]\d{9}$/, message: '手机号码格式不对' }
-        ],'';  code: [{ required: true, message: '验证码必填' }],
+        ],
+        code: [{ required: true, message: '验证码必填' }],
         xieyi: [
           { validator: xieyiTest }
         ]
       },
       // 表单数据对象
       loginForm: {
-        mobile: '', // 手机号码
-        code: '', // 验证码
+        mobile: '17852108713', // 手机号码
+        code: '246810', // 验证码
         xieyi: true // 协议复选框
       }
     }
@@ -69,8 +70,20 @@ export default {
         if (!valid) {
           return false
         }
-        // 路由编程式导航
-        this.$router.push({ name: 'home' })
+        // 服务器端账号真实校验
+        const pro = this.$http({
+          url: '/mp/v1_0/authorizations',
+          method: 'POST',
+          data: this.loginForm
+        })
+        pro
+          .then(result => {
+            // 进入后台系统
+            this.$router.push({ name: 'home' })
+          })
+          .catch(err => {
+            this.$message.error('手机号码或验证码错误:' + err)
+          })
       })
     }
   }
