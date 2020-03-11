@@ -2,6 +2,7 @@
   <el-container>
     <el-aside :width="isCollapse ? '65px' : '200px'">
       <el-menu
+        router
         default-active="2"
         class="el-menu-vertical-demo"
         @open="handleOpen"
@@ -11,7 +12,7 @@
         :collapse-transition="false"
       >
         <el-menu-item
-          index="1"
+          index="/welcome"
           :style="{ width: iscollapse ? '65px' : '200px' }"
         >
           <i class="el-icon-menu"></i>
@@ -22,7 +23,7 @@
             <i class="el-icon-location"></i>
             <span>内容管理</span>
           </template>
-          <el-menu-item index="2-1">发布文章</el-menu-item>
+          <el-menu-item index="/article">发布文章</el-menu-item>
           <el-menu-item index="2-2">内容列表</el-menu-item>
           <el-menu-item index="2-3">评论列表</el-menu-item>
           <el-menu-item index="2-4">素材管理</el-menu-item>
