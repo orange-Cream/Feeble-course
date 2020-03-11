@@ -45,14 +45,15 @@ export default {
 <style lang="less" scoped>
 .login-container {
   height: 100%;
-  background-color: gray;
+  background-image: url('../../assets/images/bg01.jpg');
+  background-size: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   .login-box {
     width: 410px;
     height: 340px;
-    background-color: #fff;
+    background-color: rgba(255, 236, 125, 0.1);
     display: flex;
     justify-content: center;
     align-items: center;
