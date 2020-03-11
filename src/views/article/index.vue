@@ -56,7 +56,20 @@
           />
         </el-table-column>
         <el-table-column prop="title" label="标题"></el-table-column>
-        <el-table-column prop="status" label="状态"></el-table-column>
+        <el-table-column prop="status" label="状态">
+          <template slot-scope="stData">
+            <el-tag v-if="stData.row.status === 0">草稿</el-tag>
+            <el-tag v-else-if="stData.row.status === 1" type="success"
+              >待审核</el-tag
+            >
+            <el-tag v-else-if="stData.row.status === 2" type="info"
+              >审核通过</el-tag
+            >
+            <el-tag v-else-if="stData.row.status === 3" type="warning"
+              >审核失败</el-tag
+            >
+          </template>
+        </el-table-column>
         <el-table-column prop="pubdate" label="发布时间"></el-table-column>
         <el-table-column label="操作">
           <el-button type="primary" size="mini" icon="el-icon-edit"
