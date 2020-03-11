@@ -20,7 +20,12 @@
               placeholder="请选择"
               clearable
             >
-              <el-option v-for="item in channelList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+              <el-option
+                v-for="item in channelList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              ></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="时间选择：">
@@ -36,17 +41,30 @@
         </el-form>
       </div>
     </el-card>
-        <el-card class="box-card">
+    <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>共找到{{tot}}条符合条件的内容</span>
+        <span>共找到{{ tot }}条符合条件的内容</span>
       </div>
       <el-table :data="articleList" style="width: 100%">
+        <el-table-column label="图标">
+          <img
+            :src="stData.row.cover.images[0]"
+            slot-scope="stData"
+            alt="没有图标"
+            width="150"
+            height="100"
+          />
+        </el-table-column>
         <el-table-column prop="title" label="标题"></el-table-column>
         <el-table-column prop="status" label="状态"></el-table-column>
         <el-table-column prop="pubdate" label="发布时间"></el-table-column>
-         <el-table-column label="操作">
-          <el-button type="primary" size="mini" icon="el-icon-edit">修改</el-button>
-          <el-button type="danger" size="mini" icon="el-icon-delete">删除</el-button>
+        <el-table-column label="操作">
+          <el-button type="primary" size="mini" icon="el-icon-edit"
+            >修改</el-button
+          >
+          <el-button type="danger" size="mini" icon="el-icon-delete"
+            >删除</el-button
+          >
         </el-table-column>
       </el-table>
     </el-card>
@@ -87,7 +105,7 @@ export default {
     this.getChannelList()
   },
   methods: {
-  // 获得真实文章列表数据
+    // 获得真实文章列表数据
     getArticleList () {
       const pro = this.$http({
         url: '/mp/v1_0/articles',
@@ -111,10 +129,11 @@ export default {
         url: '/mp/v1_0/channels',
         method: 'get'
       })
-      pro.then(result => {
-        // data接收频道数据
-        this.channelList = result.data.data.channels
-      })
+      pro
+        .then(result => {
+          // data接收频道数据
+          this.channelList = result.data.data.channels
+        })
         .catch(err => {
           return this.$message.error('获得频道失败:' + err)
         })
@@ -124,6 +143,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  /*给卡片区设置向下的外边距*/
-  .box-card{margin-bottom:15px;}
+/*给卡片区设置向下的外边距*/
+.box-card {
+  margin-bottom: 15px;
+}
 </style>
