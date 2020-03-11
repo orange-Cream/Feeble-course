@@ -48,8 +48,7 @@ export default {
         mobile: [
           { required: true, message: '手机号码必填' },
           { pattern: /^1[35789]\d{9}$/, message: '手机号码格式不对' }
-        ],
-        code: [{ required: true, message: '验证码必填' }],
+        ],'';  code: [{ required: true, message: '验证码必填' }],
         xieyi: [
           { validator: xieyiTest }
         ]
