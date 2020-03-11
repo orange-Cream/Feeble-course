@@ -7,13 +7,13 @@
           <el-input
             v-model="loginForm.mobile"
             placeholder="请输入手机号码"
-          ></el-input>
+          ><i slot="prefix" class="iconfont icon-shouji"></i></el-input>
         </el-form-item>
         <el-form-item prop="code">
           <el-input
             v-model="loginForm.code"
             placeholder="请输入验证码"
-          ></el-input>
+          ><i slot="prefix" class="iconfont icon-zhiwen"></i></el-input>
         </el-form-item>
         <el-form-item prop="xieyi">
           <!-- 复选框，单个复选框直接设置v-model即可，接收true/false的信息，表示是否选中 -->
@@ -35,6 +35,9 @@
 </template>
 
 <script>
+// 字体图标
+import '@/assets/font/iconfont.css'
+// 极验
 import './gt'
 export default {
   name: 'Login',
