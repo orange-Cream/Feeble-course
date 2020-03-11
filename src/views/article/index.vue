@@ -20,9 +20,7 @@
               placeholder="请选择"
               clearable
             >
-              <el-option label="html5" value="101"></el-option>
-              <el-option label="css3" value="102"></el-option>
-              <el-option label="JS高级" value="103"></el-option>
+              <el-option v-for="item in channelList" :key="item.id" :label="item.name" :value="item.id"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="时间选择：">
@@ -46,6 +44,7 @@ export default {
   name: 'Article',
   data () {
     return {
+      channelList: [], // 真实频道数据进行展示
       timetotime: [], // 临时接收时间范围信息
       searchForm: {
         status: '0', // 文章状态，0-草稿，1-待审核，2-审核通过，3-审核失败，4-已删除，不传为全部
@@ -63,8 +62,26 @@ export default {
       } else {
         // 清除时间信息
         this.searchForm.begin_pubdate = ''
-        thie.searchForm.end_pubdate = ''
+        this.searchForm.end_pubdate = ''
       }
+    }
+  },
+  created () {
+    this.getChannelList()
+  },
+  methods: {
+    getChannelList () {
+      const pro = this.$http({
+        url: '/mp/v1_0/channels',
+        method: 'get'
+      })
+      pro.then(result => {
+        // data接收频道数据
+        this.channelList = result.data.data.channels
+      })
+        .catch(err => {
+          return this.$message.error('获得频道失败:' + err)
+        })
     }
   }
 }
