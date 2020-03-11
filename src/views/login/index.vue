@@ -70,23 +70,38 @@ export default {
         if (!valid) {
           return false
         }
-        // 服务器端账号真实校验
+        // B. 人机交互验证
         const pro = this.$http({
-          url: '/mp/v1_0/authorizations',
-          method: 'POST',
-          data: this.loginForm
+          url: '/mp/v1_0/captchas/' + this.loginForm.mobile,
+          method: 'get'
         })
-        pro
-          .then(result => {
-            // 客户端浏览器把服务器端返回的秘钥等相关信息通过sessionStorage做记录,表明是登录状态
-            window.sessionStorage.setItem('userInfo', JSON.stringify(result.data.data))
-            // 进入后台系统
-            this.$router.push({ name: 'home' })
-          })
+        pro.then(result => {
+          console.log(result)
+        })
           .catch(err => {
-            this.$message.error('手机号码或验证码错误:' + err)
+            return this.$message.error('获取极验秘钥失败：' + err)
           })
+        // A. 账号真实校验
+        // this.loginAct()
       })
+    },
+    loginAct () {
+      // 服务器端账号真实校验
+      const pro = this.$http({
+        url: '/mp/v1_0/authorizations',
+        method: 'POST',
+        data: this.loginForm
+      })
+      pro
+        .then(result => {
+          // 客户端浏览器把服务器端返回的秘钥等相关信息通过sessionStorage做记录,表明是登录状态
+          window.sessionStorage.setItem('userInfo', JSON.stringify(result.data.data))
+          // 进入后台系统
+          this.$router.push({ name: 'home' })
+        })
+        .catch(err => {
+          this.$message.error('手机号码或验证码错误:' + err)
+        })
     }
   }
 }
