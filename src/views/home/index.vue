@@ -3,22 +3,18 @@
     <el-aside :width="isCollapse ? '65px' : '200px'">
       <el-menu
         router
-        default-active="2"
-        class="el-menu-vertical-demo"
-        @open="handleOpen"
-        @close="handleClose"
         style="background-color:rgba(221, 235, 32, 0.3)"
         :collapse="isCollapse"
         :collapse-transition="false"
       >
         <el-menu-item
           index="/welcome"
-          :style="{ width: iscollapse ? '65px' : '200px' }"
+          :style="{ width: isCollapse ? '65px' : '200px' }"
         >
           <i class="el-icon-menu"></i>
           <span slot="title">首页</span>
         </el-menu-item>
-        <el-submenu index="2" :style="{ width: iscollapse ? '65px' : '200px' }">
+        <el-submenu index="2" :style="{ width: isCollapse ? '65px' : '200px' }">
           <template slot="title">
             <i class="el-icon-location"></i>
             <span>内容管理</span>
@@ -28,7 +24,7 @@
           <el-menu-item index="2-3">评论列表</el-menu-item>
           <el-menu-item index="2-4">素材管理</el-menu-item>
         </el-submenu>
-        <el-submenu index="3" :style="{ width: iscollapse ? '65px' : '200px' }">
+        <el-submenu index="3" :style="{ width: isCollapse ? '65px' : '200px' }">
           <template slot="title">
             <i class="el-icon-document"></i>
             <span>粉丝管理</span>
@@ -40,7 +36,7 @@
         </el-submenu>
         <el-menu-item
           index="4"
-          :style="{ width: iscollapse ? '65px' : '200px' }"
+          :style="{ width: isCollapse ? '65px' : '200px' }"
         >
           <i class="el-icon-setting"></i>
           <span slot="title">账户信息</span>

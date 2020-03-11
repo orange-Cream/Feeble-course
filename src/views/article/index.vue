@@ -5,7 +5,7 @@
         <span>全部图文</span>
       </div>
       <div class="text item">
-        <el-form ref="ArticleFormRef" :model="searcForm" label-width="100px">
+        <el-form ref="ArticleFormRef" :model="searchForm" label-width="100px">
           <el-form-item label="文章状态：">
             <el-radio v-model="searchForm.status" label="">全部</el-radio>
             <el-radio v-model="searchForm.status" label="0">草稿</el-radio>
@@ -14,8 +14,27 @@
             <el-radio v-model="searchForm.status" label="3">审核失败</el-radio>
             <el-radio v-model="searchForm.status" label="4">已删除</el-radio>
           </el-form-item>
-          <el-form-item label="频道列表："></el-form-item>
-          <el-form-item label="时间选择："></el-form-item>
+          <el-form-item label="频道列表：">
+            <el-select
+              v-model="searchForm.channel_id"
+              placeholder="请选择"
+              clearable
+            >
+              <el-option label="html5" value="101"></el-option>
+              <el-option label="css3" value="102"></el-option>
+              <el-option label="JS高级" value="103"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="时间选择：">
+            <el-date-picker
+              v-model="timetotime"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              value-format="yyyy-MM-dd"
+            ></el-date-picker>
+          </el-form-item>
         </el-form>
       </div>
     </el-card>
@@ -28,7 +47,9 @@ export default {
   data () {
     return {
       searchForm: {
-        status: '0' // 文章状态，0-草稿，1-待审核，2-审核通过，3-审核失败，4-已删除，不传为全部
+        status: '0', // 文章状态，0-草稿，1-待审核，2-审核通过，3-审核失败，4-已删除，不传为全部
+        channel_id: '', // 频道id
+        timetotime: [] // 临时接收时间范围信息
       }
     }
   }
