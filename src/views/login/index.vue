@@ -6,14 +6,16 @@
         <el-form-item prop="mobile">
           <el-input
             v-model="loginForm.mobile"
-            placeholder="请输入手机号码"></el-input>
+            placeholder="请输入手机号码"
+          ></el-input>
         </el-form-item>
         <el-form-item prop="code">
           <el-input
             v-model="loginForm.code"
-            placeholder="请输入验证码"></el-input>
+            placeholder="请输入验证码"
+          ></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item prop="xieyi">
           <!-- 复选框，单个复选框直接设置v-model即可，接收true/false的信息，表示是否选中 -->
           <el-checkbox v-model="loginForm.xieyi"></el-checkbox>
           <span
@@ -36,6 +38,10 @@
 export default {
   name: 'Login',
   data () {
+    // 自定义校验规则
+    var xieyiTest = function (rule, value, callback) {
+      value ? callback() : callback(new Error('请无条件遵守规矩'))
+    }
     return {
       // 表单校验规则
       loginFormRules: {
@@ -43,7 +49,10 @@ export default {
           { required: true, message: '手机号码必填' },
           { pattern: /^1[35789]\d{9}$/, message: '手机号码格式不对' }
         ],
-        code: [{ required: true, message: '验证码必填' }]
+        code: [{ required: true, message: '验证码必填' }],
+        xieyi: [
+          { validator: xieyiTest }
+        ]
       },
       // 表单数据对象
       loginForm: {
@@ -56,8 +65,14 @@ export default {
   methods: {
     // 登录系统
     login () {
-      // 路由编程式导航
-      this.$router.push({ name: 'home' })
+    // 表单校验(登录方式)
+      this.$refs.loginFormRef.validate(valid => {
+        if (!valid) {
+          return false
+        }
+        // 路由编程式导航
+        this.$router.push({ name: 'home' })
+      })
     }
   }
 }
