@@ -80,7 +80,10 @@
           </el-dropdown>
         </div>
       </el-header>
-      <el-main>Main</el-main>
+      <el-main>
+        <!-- 子页面的占位符 -->
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
@@ -110,13 +113,14 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
-        // 清空sessionStorage数据
-        window.sessionStorage.clear()
-        // 导航到登录页面
-        this.$router.push({ name: 'login' })
-      }).catch(() => {
       })
+        .then(() => {
+          // 清空sessionStorage数据
+          window.sessionStorage.clear()
+          // 导航到登录页面
+          this.$router.push({ name: 'login' })
+        })
+        .catch(() => {})
     }
   }
 }
