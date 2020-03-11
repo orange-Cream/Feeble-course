@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-aside :width="isCollapse?'65px':'200px'">
+    <el-aside :width="isCollapse ? '65px' : '200px'">
       <el-menu
         default-active="2"
         class="el-menu-vertical-demo"
@@ -10,11 +10,14 @@
         :collapse="isCollapse"
         :collapse-transition="false"
       >
-        <el-menu-item index="1" :style="{width:iscollapse?'65px':'200px'}">
+        <el-menu-item
+          index="1"
+          :style="{ width: iscollapse ? '65px' : '200px' }"
+        >
           <i class="el-icon-menu"></i>
           <span slot="title">首页</span>
         </el-menu-item>
-        <el-submenu index="2" :style="{width:iscollapse?'65px':'200px'}">
+        <el-submenu index="2" :style="{ width: iscollapse ? '65px' : '200px' }">
           <template slot="title">
             <i class="el-icon-location"></i>
             <span>内容管理</span>
@@ -24,7 +27,7 @@
           <el-menu-item index="2-3">评论列表</el-menu-item>
           <el-menu-item index="2-4">素材管理</el-menu-item>
         </el-submenu>
-        <el-submenu index="3" :style="{width:iscollapse?'65px':'200px'}">
+        <el-submenu index="3" :style="{ width: iscollapse ? '65px' : '200px' }">
           <template slot="title">
             <i class="el-icon-document"></i>
             <span>粉丝管理</span>
@@ -34,7 +37,10 @@
           <el-menu-item index="3-3">粉丝画像</el-menu-item>
           <el-menu-item index="3-4">粉丝列表</el-menu-item>
         </el-submenu>
-        <el-menu-item index="4" :style="{width:iscollapse?'65px':'200px'}">
+        <el-menu-item
+          index="4"
+          :style="{ width: iscollapse ? '65px' : '200px' }"
+        >
           <i class="el-icon-setting"></i>
           <span slot="title">账户信息</span>
         </el-menu-item>
@@ -69,7 +75,7 @@
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>个人信息</el-dropdown-item>
               <el-dropdown-item>github地址</el-dropdown-item>
-              <el-dropdown-item>退出</el-dropdown-item>
+              <el-dropdown-item @click.native="logout()">退出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -96,6 +102,21 @@ export default {
     // 获得账户头像
     photo: function () {
       return JSON.parse(window.sessionStorage.getItem('userInfo')).photo
+    }
+  },
+  methods: {
+    logout () {
+      this.$confirm('此操作将退出系统, 是否继续?', '退出', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 清空sessionStorage数据
+        window.sessionStorage.clear()
+        // 导航到登录页面
+        this.$router.push({ name: 'login' })
+      }).catch(() => {
+      })
     }
   }
 }
