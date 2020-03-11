@@ -1,18 +1,20 @@
 <template>
   <el-container>
-    <el-aside width="200px">
+    <el-aside :width="isCollapse?'65px':'200px'">
       <el-menu
         default-active="2"
         class="el-menu-vertical-demo"
         @open="handleOpen"
         @close="handleClose"
-        style="background-color:rgba(221, 235, 32, 0.3);"
+        style="background-color:rgba(221, 235, 32, 0.3)"
+        :collapse="isCollapse"
+        :collapse-transition="false"
       >
-        <el-menu-item index="1">
+        <el-menu-item index="1" :style="{width:iscollapse?'65px':'200px'}">
           <i class="el-icon-menu"></i>
           <span slot="title">首页</span>
         </el-menu-item>
-        <el-submenu index="2">
+        <el-submenu index="2" :style="{width:iscollapse?'65px':'200px'}">
           <template slot="title">
             <i class="el-icon-location"></i>
             <span>内容管理</span>
@@ -22,7 +24,7 @@
           <el-menu-item index="2-3">评论列表</el-menu-item>
           <el-menu-item index="2-4">素材管理</el-menu-item>
         </el-submenu>
-        <el-submenu index="3">
+        <el-submenu index="3" :style="{width:iscollapse?'65px':'200px'}">
           <template slot="title">
             <i class="el-icon-document"></i>
             <span>粉丝管理</span>
@@ -32,7 +34,7 @@
           <el-menu-item index="3-3">粉丝画像</el-menu-item>
           <el-menu-item index="3-4">粉丝列表</el-menu-item>
         </el-submenu>
-        <el-menu-item index="4">
+        <el-menu-item index="4" :style="{width:iscollapse?'65px':'200px'}">
           <i class="el-icon-setting"></i>
           <span slot="title">账户信息</span>
         </el-menu-item>
@@ -41,7 +43,12 @@
     <el-container>
       <el-header>
         <div id="lt">
-          <i class="el-icon-s-fold"></i>
+          <i
+            slot="prefix"
+            :class="isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'"
+            style="cursor:pointer;"
+            @click="isCollapse = !isCollapse"
+          ></i>
           <span>微乎</span>
         </div>
         <div id="rt">
@@ -75,6 +82,11 @@
 <script>
 export default {
   name: 'Home',
+  data () {
+    return {
+      isCollapse: false
+    }
+  },
   // 计算属性应用
   computed: {
     // 获得账户名称
