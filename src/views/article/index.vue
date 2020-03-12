@@ -104,11 +104,11 @@ export default {
       timetotime: [], // 临时接收时间范围信息
       searchForm: {
         page: 1, // 当前数据记录页码
-        per_page: 10, // 分页数据记录条数
-        status: '0', // 文章状态，0-草稿，1-待审核，2-审核通过，3-审核失败，4-已删除，不传为全部
+        per_page: 10, // 分页数据记录条数(10~50)
+        begin_pubdate: '', // 开始时间
+        end_pubdate: '', // 结束时间
         channel_id: '', // 频道id
-        begin_pubdate: '', // 文章发布开始时间
-        end_pubdate: '' // 文章发布结束时间
+        status: '' // 文章状态，''-全部, 0-草稿，1-待审核，2-审核通过，3-审核失败
       }
     }
   },
@@ -122,6 +122,12 @@ export default {
         this.searchForm.begin_pubdate = ''
         this.searchForm.end_pubdate = ''
       }
+    },
+    searchForm: {
+      handler: function (newV, oldV) {
+        this.getArticleList()
+      },
+      deep: true
     }
   },
   created () {
@@ -137,30 +143,33 @@ export default {
       // 更新每页条数
       this.searchForm.per_page = val
       // 根据变化后的每页条数重新获得文章列表
-      this.getArticleList()
+    //   this.getArticleList()
     },
     // 页码变化的回调处理
     handleCurrentChange (val) {
       // val: 变化后的页码
-      // console.log(val)
+      console.log(val)
       // 更新页码
       this.searchForm.page = val
       // 根据变化后页码重新获得文章列表
-      this.getArticleList()
+    //   this.getArticleList()
     },
     // 获得真实文章列表数据
     getArticleList () {
       // 把searchForm内部为空的成员都"过滤掉"
       const searchData = {}
       for (var i in this.searchForm) {
-        if (this.searchForm[0] || this.searchForm[i] === 0) {
+        // i:代表对象的成员属性名称, status、channel_id、begin_pudate等等
+        if (this.searchForm[i] || this.searchForm[i] === 0) {
           // 成员值非空
           searchData[i] = this.searchForm[i]
         }
       }
+
       const pro = this.$http({
         url: '/mp/v1_0/articles',
-        method: 'get'
+        method: 'get',
+        params: searchData
       })
       pro
         .then(result => {
@@ -197,5 +206,8 @@ export default {
 /*给卡片区设置向下的外边距*/
 .box-card {
   margin-bottom: 15px;
+}
+.el-pagination {
+  margin-top: 15px;
 }
 </style>
