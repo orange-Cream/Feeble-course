@@ -10,7 +10,7 @@
             <el-input v-model="addForm.title"></el-input>
           </el-form-item>
           <el-form-item label="内容：">
-            <el-input v-model="addForm.content"></el-input>
+              <quillEditor v-model="addForm.content"></quillEditor>
           </el-form-item>
           <el-form-item label="封面">
             <el-radio-group v-model="addForm.cover.type">
@@ -41,6 +41,11 @@
 </template>
 
 <script>
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+// 通过es6按需导入方式 导入需要的组件模块
+import { quillEditor } from 'vue-quill-editor'
 export default {
   data () {
     return {
@@ -55,6 +60,11 @@ export default {
         channel_id: ''
       }
     }
+  },
+  components: {
+    // 简易成员赋值 quillEditor: quillEditor
+    // 组件使用两种方式：<quillEditor></quillEditor> 或 <quill-editor></quill-editor>
+    quillEditor
   },
   created () {
     this.getChannelList()
@@ -76,4 +86,13 @@ export default {
 }
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+/*控制富文本编辑器的高度样式*/
+// .ql-editor{height:200px;}  // 编译变为.ql-editor[data-v-494db270] { height: 200px; } 失效的
+
+/*使用深度作用选择器
+  /deep/深度作用选择器作用： 前边的会关联data-v-xx属性，而后边的不会关联
+*/
+.quill-editor /deep/ .ql-editor{height:200px;}
+// 上述样式解析完毕：.quill-editor[data-v-494db270] .ql-editor{height:200px;}
+</style>
