@@ -5,14 +5,14 @@
         <span>发表文章</span>
       </div>
       <div class="text item">
-        <el-form ref="addFormRef" :model="addForm" label-width="120px">
-          <el-form-item label="标题：">
+        <el-form :rules="addFormRules" ref="addFormRef" :model="addForm" label-width="120px">
+          <el-form-item label="标题：" prop="title">
             <el-input v-model="addForm.title"></el-input>
           </el-form-item>
-          <el-form-item label="内容：">
+          <el-form-item label="内容：" prop="content">
               <quillEditor v-model="addForm.content"></quillEditor>
           </el-form-item>
-          <el-form-item label="封面">
+          <el-form-item label="封面" prop="channel_id">
             <el-radio-group v-model="addForm.cover.type">
               <el-radio :label="1">单图</el-radio>
               <el-radio :label="3">三图</el-radio>
@@ -49,6 +49,20 @@ import { quillEditor } from 'vue-quill-editor'
 export default {
   data () {
     return {
+      // 表单校验规则
+      addFormRules: {
+        title: [
+          { required: true, message: '标题必填' },
+          // 后端要求title长度介于5-30个字符
+          {
+            min: 5,
+            max: 30,
+            message: '标题长度介于5-30个字符'
+          }
+        ],
+        content: [{ required: true, message: '内容必填' }],
+        channel_id: [{ required: true, message: '频道必选' }]
+      },
       channelList: [],
       addForm: {
         title: '',
