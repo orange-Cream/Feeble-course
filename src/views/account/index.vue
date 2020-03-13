@@ -11,14 +11,15 @@
             ref="accountFormRef"
             :model="accountForm"
             label-width="100px"
+            :rules="accountFormRules"
           >
-            <el-form-item label="用户名：">
+            <el-form-item label="用户名：" prop="name">
               <el-input v-model="accountForm.name"></el-input>
             </el-form-item>
             <el-form-item label="手机号码：">
               <el-input v-model="accountForm.mobile" disabled></el-input>
             </el-form-item>
-            <el-form-item label="邮箱：">
+            <el-form-item label="邮箱：" prop="email">
               <el-input v-model="accountForm.email"></el-input>
             </el-form-item>
             <el-form-item label="简介：">
@@ -40,6 +41,22 @@ export default {
   name: 'Account',
   data () {
     return {
+      // 表单校验
+      accountFormRules: {
+        name: [
+          { required: true, message: '名字必填' },
+          // 后端要求title长度介于1-7个字符
+          {
+            min: 1,
+            max: 7,
+            message: '名字长度介于1-7个字符之间'
+          }
+        ],
+        email: [
+          { required: true, message: '邮箱必填' },
+          { type: 'email', message: '邮箱格式不正确' }
+        ]
+      },
       accountForm: {
         // 各个成员来自api参考【2.4 编辑用户资料】
         id: '', // id
