@@ -1,4 +1,6 @@
 // 独立文件，用于存储axios相关代码
+// 引入json-bigint模块
+import JSONbig from 'json-bigint'
 
 // 导入Vue模块
 import Vue from 'vue'
@@ -27,3 +29,15 @@ axios.interceptors.request.use(function (config) {
   // Do something with request error
   return Promise.reject(error)
 })
+
+// 服务器端返回，数据转换器，应用
+axios.defaults.transformResponse = [function (data) {
+  // data的返回形式有两种
+  // 1. 实体字符串
+  // 2. 空字符串(不能转的)
+  // JSONbig.parse针对大整型进行处理，其他信息不给处理
+  if (data) {
+    return JSONbig.parse(data)
+  }
+  return data
+}]

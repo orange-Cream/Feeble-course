@@ -41,8 +41,7 @@
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="addarticle(false)"
-              >发布</el-button
-            >
+              >发布</el-button>
             <el-button @click="addarticle(true)">存入草稿</el-button>
           </el-form-item>
         </el-form>
@@ -93,27 +92,31 @@ export default {
   },
   created () {
     this.getChannelList()
+    this.addarticle()
   },
   methods: {
     // 发表文章
-    addArticle (flag) {
+    addarticle (flag) {
       // 表单整体校验
       this.$refs.addFormRef.validate(valid => {
         // 校验失败停止后续执行
-        if (!valid) {
-          return false
-        }
+        if (!valid) { return false }
+
         // 继续
+        // axios
         const pro = this.$http({
           url: '/mp/v1_0/articles',
           method: 'post',
           data: this.addForm, // 表单数据
           params: { draft: flag } // 请求字符串数据
         })
-        pro.then(result => {
-          this.$message.success('发布文章成功')
-          this.$router.push({ name: 'article' })
-        })
+        pro
+          .then(result => {
+            this.$message.success('发布文章成功！')
+            // console.log(result)
+            // 跳转到列表页面
+            this.$router.push({ name: 'article' })
+          })
           .catch(err => {
             return this.$message.error('发布文章失败：' + err)
           })

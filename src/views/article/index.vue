@@ -72,12 +72,18 @@
         </el-table-column>
         <el-table-column prop="pubdate" label="发布时间"></el-table-column>
         <el-table-column label="操作">
-          <el-button type="primary" size="mini" icon="el-icon-edit"
-            >修改</el-button
-          >
-          <el-button type="danger" size="mini" icon="el-icon-delete"
-            >删除</el-button
-          >
+          <template slot-scope="stData">
+            <el-button type="primary" size="mini" icon="el-icon-edit"
+              >修改</el-button
+            >
+            <el-button
+              type="danger"
+              size="mini"
+              icon="el-icon-delete"
+              @click="del(stData.row.id)"
+              >删除</el-button
+            >
+          </template>
         </el-table-column>
       </el-table>
       <el-pagination
@@ -135,6 +141,34 @@ export default {
     this.getChannelList()
   },
   methods: {
+    // 删除文章
+    del (id) {
+      // 确认事情
+      // 确认事情
+      this.$confirm('确认要删除该文章么?', '删除', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          // axios请求服务器端实现删除
+          const pro = this.$http({
+            url: '/mp/v1_0/articles/' + id,
+            method: 'delete'
+          })
+          pro
+            .then(result => {
+              // 删除成功
+              // console.log(result)  // 返回空的data数据
+              // 直接页面刷新即可
+              this.getArticleList()
+            })
+            .catch(err => {
+              return this.$message.error('删除文章失败：' + err)
+            })
+        })
+        .catch(() => {})
+    },
     // 分页相关
     // 每条条数变化的回调处理
     handleSizeChange (val) {
@@ -143,7 +177,7 @@ export default {
       // 更新每页条数
       this.searchForm.per_page = val
       // 根据变化后的每页条数重新获得文章列表
-    //   this.getArticleList()
+      //   this.getArticleList()
     },
     // 页码变化的回调处理
     handleCurrentChange (val) {
@@ -152,7 +186,7 @@ export default {
       // 更新页码
       this.searchForm.page = val
       // 根据变化后页码重新获得文章列表
-    //   this.getArticleList()
+      //   this.getArticleList()
     },
     // 获得真实文章列表数据
     getArticleList () {
