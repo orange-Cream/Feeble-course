@@ -97,11 +97,36 @@ export default {
       }
     }
   },
+  computed: {
+    // 被修改文章id
+    aid () {
+      return this.$route.params.aid
+    }
+  },
   created () {
     // 获得频道
     this.getChannelList()
+    // 获得指定文章
+    this.getArticleById()
   },
   methods: {
+    // 获得被修改文章的 信息
+    getArticleById () {
+      // axios带着id请求服务器
+      const pro = this.$http({
+        url: '/mp/v1_0/articles/' + this.aid,
+        method: 'get'
+      })
+      pro
+        .then(result => {
+          // console.log(result)
+          // editForm表单对象接收修改文章信息
+          this.editForm = result.data.data
+        })
+        .catch(err => {
+          return this.$message.error('获取文章失败：' + err)
+        })
+    },
     // 修改文章
     editarticle (flag) {
       // 表单整体校验
