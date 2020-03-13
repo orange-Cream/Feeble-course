@@ -25,19 +25,8 @@
               <el-radio :label="-1">自动</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="频道：">
-            <el-select
-              v-model="addForm.channel_id"
-              placeholder="请选择"
-              clearable
-            >
-              <el-option
-                v-for="item in channelList"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
-              ></el-option>
-            </el-select>
+          <el-form-item label="频道：" prop="channel_id">
+              <channel @slt="selectHandler"></channel>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="addarticle(false)"
@@ -51,6 +40,8 @@
 </template>
 
 <script>
+// 引入 频道组件
+import Channel from '@/components/channel.vue'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
@@ -88,13 +79,19 @@ export default {
   components: {
     // 简易成员赋值 quillEditor: quillEditor
     // 组件使用两种方式：<quillEditor></quillEditor> 或 <quill-editor></quill-editor>
-    quillEditor
+    quillEditor,
+    Channel
   },
   created () {
     this.getChannelList()
     this.addarticle()
   },
   methods: {
+    // 频道组件方法，获得子组件传递过来的频道id并赋予给channel_id成员
+    // val:子组件给传递过来的频道信息
+    selectHandler (val) {
+      this.addForm.channel_id = val
+    },
     // 发表文章
     addarticle (flag) {
       // 表单整体校验
