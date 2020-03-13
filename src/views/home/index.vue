@@ -35,7 +35,7 @@
           <el-menu-item index="3-4">粉丝列表</el-menu-item>
         </el-submenu>
         <el-menu-item
-          index="4"
+         index="/account"
           :style="{ width: isCollapse ? '65px' : '200px' }"
         >
           <i class="el-icon-setting"></i>
