@@ -73,7 +73,7 @@
         <el-table-column prop="pubdate" label="发布时间"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="stData">
-            <el-button type="primary" size="mini" icon="el-icon-edit"
+            <el-button type="primary" size="mini" icon="el-icon-edit" @click="$router.push(`/articleedit/${stData.row.id}`)"
               >修改</el-button
             >
             <el-button
