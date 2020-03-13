@@ -26,7 +26,7 @@
               <el-input type="textarea" v-model="accountForm.intro"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary">更新账户</el-button>
+              <el-button type="primary" @click="editAccount()">更新账户</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -71,6 +71,29 @@ export default {
     this.getAccountInfo()
   },
   methods: {
+    // 更新账户信息
+    editAccount () {
+      // 校验表单
+      this.$refs.accountFormRef.validate(valid => {
+        if (!valid) {
+          return false
+        }
+        const pro = this.$http({
+          url: '/mp/v1_0/user/profile',
+          method: 'patch',
+          data: this.accountForm
+        })
+        pro
+          .then(result => {
+            // console.log(result)
+            // 成功提示
+            this.$message.success('更新成功！')
+          })
+          .catch(err => {
+            return this.$message.error('更新账户信息失败：' + err)
+          })
+      })
+    },
     // 获取账户的基本信息
     getAccountInfo () {
       const pro = this.$http({
