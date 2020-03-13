@@ -32,18 +32,7 @@
         channelList的data成员
         getChannelList()的 methods方法
         created调用getChannelList()方法-->
-          <el-select
-            v-model="editForm.channel_id"
-            placeholder="请选择"
-            clearable
-          >
-            <el-option
-              v-for="item in channelList"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            ></el-option>
-          </el-select>
+        <channel @slt="selectHandler"></channel>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="editarticle(false)">修改</el-button>
@@ -55,6 +44,8 @@
 </template>
 
 <script>
+// 引入 频道公共组件
+import Channel from '@/components/channel.vue'
 // 导入富文本编辑器的css样式文件
 // vue-quill-editor 是构建在quill基础之上的(是进一步的封装)
 import 'quill/dist/quill.core.css'
@@ -65,7 +56,8 @@ import { quillEditor } from 'vue-quill-editor'
 export default {
   name: 'ArticleEdit',
   components: {
-    quillEditor
+    quillEditor,
+    Channel
   },
   data () {
     return {
@@ -110,6 +102,11 @@ export default {
     this.getArticleById()
   },
   methods: {
+    // 频道组件方法, 获得子组件传递过来的频道id并赋予给channel_id成员
+    selectHandler (val) {
+      // val: 子组件给传递过来的频道信息
+      this.addForm.channel_id = val
+    },
     // 获得被修改文章的 信息
     getArticleById () {
       // axios带着id请求服务器
