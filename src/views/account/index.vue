@@ -9,7 +9,7 @@
         <div id="lt">
           <el-form
             ref="accountFormRef"
-            :model="accountFrom"
+            :model="accountForm"
             label-width="100px"
           >
             <el-form-item label="用户名：">
@@ -48,6 +48,25 @@ export default {
         email: '', // 邮箱
         intro: '' // 简介
       }
+    }
+  },
+  created () {
+    this.getAccountInfo()
+  },
+  methods: {
+    // 获取账户的基本信息
+    getAccountInfo () {
+      const pro = this.$http({
+        url: '/mp/v1_0/user/profile',
+        method: 'get'
+      })
+      pro.then(result => {
+        console.log(result)
+        this.accountForm = result.data.data
+      })
+        .catch(err => {
+          return this.$message.error('获得账户信息失败:' + err)
+        })
     }
   }
 }
