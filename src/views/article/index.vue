@@ -14,19 +14,8 @@
             <el-radio v-model="searchForm.status" label="3">审核失败</el-radio>
             <el-radio v-model="searchForm.status" label="4">已删除</el-radio>
           </el-form-item>
-          <el-form-item label="频道列表：">
-            <el-select
-              v-model="searchForm.channel_id"
-              placeholder="请选择"
-              clearable
-            >
-              <el-option
-                v-for="item in channelList"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
-              ></el-option>
-            </el-select>
+          <el-form-item label="频道列表：" prop="channel_id">
+            <channel @slt="selectHandler"></channel>
           </el-form-item>
           <el-form-item label="时间选择：">
             <el-date-picker
@@ -73,7 +62,11 @@
         <el-table-column prop="pubdate" label="发布时间"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="stData">
-            <el-button type="primary" size="mini" icon="el-icon-edit" @click="$router.push(`/articleedit/${stData.row.id}`)"
+            <el-button
+              type="primary"
+              size="mini"
+              icon="el-icon-edit"
+              @click="$router.push(`/articleedit/${stData.row.id}`)"
               >修改</el-button
             >
             <el-button
@@ -100,8 +93,14 @@
 </template>
 
 <script>
+// 引入频道公共组件
+import Channel from '@/components/channel.vue'
 export default {
   name: 'Article',
+  components: {
+    // 注册频道独立组件
+    Channel
+  },
   data () {
     return {
       articleList: [], // 文章列表
@@ -141,6 +140,11 @@ export default {
     this.getChannelList()
   },
   methods: {
+    // 频道组件方法，获得子组件传递过来的频道id并赋予给channel_id成员
+    // val:子组件给传递过来的频道信息
+    selectHandler (val) {
+      this.searchForm.channel_id = val
+    },
     // 删除文章
     del (id) {
       // 确认事情
