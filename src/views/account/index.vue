@@ -26,11 +26,28 @@
               <el-input type="textarea" v-model="accountForm.intro"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="editAccount()">更新账户</el-button>
+              <el-button type="primary" @click="editAccount()"
+                >更新账户</el-button
+              >
             </el-form-item>
           </el-form>
         </div>
-        <div id="rt">头像展示区域</div>
+        <div id="rt">
+          <el-upload
+            action=""
+            :show-file-list="false"
+            :http-request="httpRequest"
+          >
+            <img
+              v-if="accountForm.photo"
+              :src="accountForm.photo"
+              class="avatar"
+              width="200"
+              height="200"
+            />
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </div>
       </div>
     </el-card>
   </div>
@@ -71,6 +88,35 @@ export default {
     this.getAccountInfo()
   },
   methods: {
+    // 更新上传用户头像
+    // @resource:被上传头像图片的文件资源信息
+    httpRequest (resource) {
+      // console.log(resource)
+      // 通过resource获得被上传图片对象
+      const pic = resource.file
+
+      // 利用 axios+FormData 实现图片上传
+      const fd = new FormData()
+      // 把图片对象放到fd对象里边
+      fd.append('photo', pic)
+      // axios上场
+      const pro = this.$http({
+        url: '/mp/v1_0/user/photo',
+        method: 'patch',
+        data: fd
+      })
+      pro
+        .then(result => {
+          // console.log(result)
+          // 成功提示
+          this.$message.success('头像更新成功')
+          // 更新显示新头像
+          this.accountForm.photo = result.data.data.photo
+        })
+        .catch(err => {
+          return this.$message.error('更新账户头像失败：' + err)
+        })
+    },
     // 更新账户信息
     editAccount () {
       // 校验表单
@@ -78,6 +124,13 @@ export default {
         if (!valid) {
           return false
         }
+        // axios带着更新好的账户信息请求服务器端存储
+        // get(获取)/post(添加)/put(修改)/delete(删除)
+        // patch(修改)
+        // put: 对“全部”表单域项目进行修改
+        // patch: 对“部分”表单域项目进行修改
+        // get“请求字符串”参数通过params传递，params设置参数会在url地址中体现 ?x=y&x=y....
+        // 其他请求方式传递的参数都是data(浏览器地址栏看不见该参数)
         const pro = this.$http({
           url: '/mp/v1_0/user/profile',
           method: 'patch',
@@ -100,10 +153,11 @@ export default {
         url: '/mp/v1_0/user/profile',
         method: 'get'
       })
-      pro.then(result => {
-        console.log(result)
-        this.accountForm = result.data.data
-      })
+      pro
+        .then(result => {
+          console.log(result)
+          this.accountForm = result.data.data
+        })
         .catch(err => {
           return this.$message.error('获得账户信息失败:' + err)
         })
