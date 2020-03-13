@@ -128,21 +128,25 @@ export default {
         })
     },
     // 修改文章
+    // @flag: false修改   true草稿
     editarticle (flag) {
       // 表单整体校验
       this.$refs.editFormRef.validate(valid => {
         // 校验失败停止后续执行
-        if (!valid) {
-          return false
-        }
+        if (!valid) { return false }
+
         // 继续
+        // axios
+        // 请求方式
+        // get:获取
+        // post: 添加
+        // put: 修改
+        // delete: 删除
         const pro = this.$http({
-          url: '/mp/v1_0/articles',
-          method: 'post',
+          url: '/mp/v1_0/articles/' + this.aid,
+          method: 'put',
           data: this.editForm, // 表单数据
-          params: {
-            data: flag // 请求字符串数据
-          }
+          params: { draft: flag } // 请求字符串数据
         })
         pro
           .then(result => {
