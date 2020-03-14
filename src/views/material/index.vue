@@ -8,8 +8,7 @@
         <ul>
           <li class="image-box" v-for="item in 20" :key="item">
             <img src="../../assets/logo.png" alt="" />
-          </li>
-          <div class="image-bot">
+                      <div class="image-bot">
             <el-button
               type="success"
               icon="el-icon-star-off"
@@ -17,6 +16,7 @@
             ></el-button>
             <el-button type="danger" icon="el-icon-delete" circle></el-button>
           </div>
+          </li>
         </ul>
       </div>
     </el-card>
