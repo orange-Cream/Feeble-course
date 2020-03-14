@@ -6,8 +6,8 @@
       </div>
       <div class="text item">
         <ul>
-          <li class="image-box" v-for="item in 20" :key="item">
-            <img src="../../assets/logo.png" alt="" />
+          <li class="image-box" v-for="item in imageList" :key="item.id">
+            <img :src="item.url" alt="" />
                       <div class="image-bot">
             <el-button
               type="success"
@@ -25,7 +25,39 @@
 
 <script>
 export default {
-  name: 'Material'
+  name: 'Material',
+  data () {
+    return {
+      imageList: [], // 素材图片列表
+      // 获取素材图片的条件信息
+      querycdt: {
+        collect: false,
+        page: 1,
+        per_page: 20
+      }
+    }
+  },
+  created () {
+    this.getImageList()
+  },
+  methods: {
+    getImageList () {
+      const pro = this.$http({
+        url: '/mp/v1_0/user/images',
+        method: 'get',
+        params: this.querycdt
+      })
+      pro
+        .then(result => {
+          // console.log(result)
+          // imageList接收素材图片
+          this.imageList = result.data.data.results
+        })
+        .catch(err => {
+          return this.$message.error('获得图片列表失败：' + err)
+        })
+    }
+  }
 }
 </script>
 
