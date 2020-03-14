@@ -24,13 +24,20 @@
               <el-radio :label="0">无图</el-radio>
               <el-radio :label="-1">自动</el-radio>
             </el-radio-group>
+            <ul>
+              <li class="uploadbox" v-for="item in 3" :key="item">
+                <span>点击图标选择图片</span>
+                <div class="el-icon-picture-outline"></div>
+              </li>
+            </ul>
           </el-form-item>
           <el-form-item label="频道：" prop="channel_id">
-              <channel @slt="selectHandler"></channel>
+            <channel @slt="selectHandler"></channel>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="addarticle(false)"
-              >发布</el-button>
+              >发布</el-button
+            >
             <el-button @click="addarticle(true)">存入草稿</el-button>
           </el-form-item>
         </el-form>
@@ -97,7 +104,9 @@ export default {
       // 表单整体校验
       this.$refs.addFormRef.validate(valid => {
         // 校验失败停止后续执行
-        if (!valid) { return false }
+        if (!valid) {
+          return false
+        }
 
         // 继续
         // axios
@@ -147,4 +156,36 @@ export default {
   height: 200px;
 }
 // 上述样式解析完毕：.quill-editor[data-v-494db270] .ql-editor{height:200px;}
+
+// 文章封面选择框样式
+// 文章封面选择框样式
+.uploadbox {
+  list-style: none;
+  width: 200px;
+  height: 200px;
+  margin: 10px;
+  float: left;
+  cursor: pointer;
+  border: 1px solid #eee;
+  span {
+    width: 200px;
+    height: 50px;
+    line-height: 50px;
+    display: block;
+    text-align: center;
+  }
+  div {
+    width: 200px;
+    height: 150px;
+    font-size: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+  }
+  img {
+    width: 200px;
+    height: 150px;
+  }
+}
 </style>
