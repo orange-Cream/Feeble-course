@@ -25,7 +25,7 @@
               <el-radio :label="-1">自动</el-radio>
             </el-radio-group>
             <ul>
-              <li class="uploadbox" v-for="item in covernum" :key="item">
+              <li  @click="showDialog()" class="uploadbox" v-for="item in covernum" :key="item">
                 <span>点击图标选择图片</span>
                 <div class="el-icon-picture-outline"></div>
               </li>
@@ -41,6 +41,19 @@
             <el-button @click="addarticle(true)">存入草稿</el-button>
           </el-form-item>
         </el-form>
+        <el-dialog
+          title="提示"
+          :visible.sync="dialogVisible"
+          width="60%"
+        >
+          <span>这是一段信息</span>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="dialogVisible = false"
+              >确 定</el-button
+            >
+          </span>
+        </el-dialog>
       </div>
     </el-card>
   </div>
@@ -57,6 +70,8 @@ import { quillEditor } from 'vue-quill-editor'
 export default {
   data () {
     return {
+      // 素材对话框是否启用
+      dialogVisible: false,
       // 表单校验规则
       addFormRules: {
         title: [
@@ -87,7 +102,7 @@ export default {
     covernum () {
       // 设计选择框显示个数
       // type>0 ====== type值
-    // type<=0 ====== 0 值
+      // type<=0 ====== 0 值
       if (this.addForm.cover.type > 0) {
         return this.addForm.cover.type
       }
@@ -105,6 +120,10 @@ export default {
     this.addarticle()
   },
   methods: {
+    // 展示对话框逻辑
+    showDialog () {
+      this.dialogVisible = true
+    },
     // 频道组件方法，获得子组件传递过来的频道id并赋予给channel_id成员
     // val:子组件给传递过来的频道信息
     selectHandler (val) {
