@@ -22,7 +22,7 @@
           <el-menu-item index="/articleadd">发布文章</el-menu-item>
           <el-menu-item index="/article">内容列表</el-menu-item>
           <el-menu-item index="2-3">评论列表</el-menu-item>
-          <el-menu-item index="2-4">素材管理</el-menu-item>
+          <el-menu-item index="/material">素材管理</el-menu-item>
         </el-submenu>
         <el-submenu index="3" :style="{ width: isCollapse ? '65px' : '200px' }">
           <template slot="title">
@@ -114,18 +114,18 @@ export default {
       console.log(nm)
 
       // 更新sessionStorage中name的信息
-      const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
-      userInfo.name = nm
-      window.sessionStorage.setItem('userInfo', JSON.stringify(userInfo))
+      const userinfo = JSON.parse(window.sessionStorage.getItem('userinfo'))
+      userinfo.name = nm
+      window.sessionStorage.setItem('userinfo', JSON.stringify(userinfo))
       // 更新临时成员tmpname
       this.tmpname = nm
     })
     // 2. 对  名称  进行更新
     bus.$on('upAccountPhoto', ph => {
     // 更新sessionStorage中photo的信息
-      const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
-      userInfo.photo = ph
-      window.sessionStorage.setItem('userInfo', JSON.stringify(userInfo))
+      const userinfo = JSON.parse(window.sessionStorage.getItem('userinfo'))
+      userinfo.photo = ph
+      window.sessionStorage.setItem('userinfo', JSON.stringify(userinfo))
       // 更新临时成员tmpphoto
       this.tmpphoto = ph
     })
