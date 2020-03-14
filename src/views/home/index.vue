@@ -86,23 +86,49 @@
 </template>
 
 <script>
+// 导入公共bus的vue对象
+import bus from '@/utils/bus.js'
 export default {
   name: 'Home',
   data () {
     return {
+      tmpname: '', // 临时账户名称
+      tmpphoto: '', // 临时账户头像
       isCollapse: false
     }
   },
   // 计算属性应用
   computed: {
     // 获得账户名称
-    name: function () {
-      return JSON.parse(window.sessionStorage.getItem('userInfo')).name
+    name () {
+      return this.tmpname || JSON.parse(window.sessionStorage.getItem('userInfo')).name
     },
     // 获得账户头像
-    photo: function () {
-      return JSON.parse(window.sessionStorage.getItem('userInfo')).photo
+    photo () {
+      return this.tmpphoto || JSON.parse(window.sessionStorage.getItem('userInfo')).photo
     }
+  },
+  created () {
+  // 1. 对  名称  进行更新
+    bus.$on('upAccountName', nm => {
+      console.log(nm)
+
+      // 更新sessionStorage中name的信息
+      const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
+      userInfo.name = nm
+      window.sessionStorage.setItem('userInfo', JSON.stringify(userInfo))
+      // 更新临时成员tmpname
+      this.tmpname = nm
+    })
+    // 2. 对  名称  进行更新
+    bus.$on('upAccountPhoto', ph => {
+    // 更新sessionStorage中photo的信息
+      const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
+      userInfo.photo = ph
+      window.sessionStorage.setItem('userInfo', JSON.stringify(userInfo))
+      // 更新临时成员tmpphoto
+      this.tmpphoto = ph
+    })
   },
   methods: {
     logout () {

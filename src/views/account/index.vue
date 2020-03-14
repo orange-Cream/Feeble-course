@@ -54,6 +54,8 @@
 </template>
 
 <script>
+// 导入公共bus的vue对象
+import bus from '@/utils/bus.js'
 export default {
   name: 'Account',
   data () {
@@ -107,6 +109,8 @@ export default {
       })
       pro
         .then(result => {
+          // 同步更新给home显示
+          bus.$emit('upAccountPhoto', result.data.data.photo)
           // console.log(result)
           // 成功提示
           this.$message.success('头像更新成功')
@@ -138,6 +142,8 @@ export default {
         })
         pro
           .then(result => {
+            // 把名称传递给home, 进行同步更新
+            bus.$emit('upAccountName', this.accountForm.name)
             // console.log(result)
             // 成功提示
             this.$message.success('更新成功！')
