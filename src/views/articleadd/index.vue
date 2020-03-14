@@ -25,7 +25,7 @@
               <el-radio :label="-1">自动</el-radio>
             </el-radio-group>
             <ul>
-              <li class="uploadbox" v-for="item in 3" :key="item">
+              <li class="uploadbox" v-for="item in covernum" :key="item">
                 <span>点击图标选择图片</span>
                 <div class="el-icon-picture-outline"></div>
               </li>
@@ -81,6 +81,17 @@ export default {
         },
         channel_id: ''
       }
+    }
+  },
+  computed: {
+    covernum () {
+      // 设计选择框显示个数
+      // type>0 ====== type值
+    // type<=0 ====== 0 值
+      if (this.addForm.cover.type > 0) {
+        return this.addForm.cover.type
+      }
+      return 0
     }
   },
   components: {
